@@ -5,11 +5,8 @@
 #include <vector>
 #include <iomanip>
 #include <unordered_map>
-#include <thread>
 #include <iomanip>
-#include <mutex>
 #include <thread>
-#include <unordered_map>
 #include <algorithm>    // std::sort
 #include "easySha-256.h"
 
@@ -53,9 +50,6 @@ string inputData(){
 
     file.close();  // Закрытие файла
 
-    // Вывод прочитанного содержимого
-    std::cout << "Содержимое файла:\n" << content << std::endl;
-    return content;
 }
 
  // Функция для разбиения текста на блоки
@@ -131,11 +125,6 @@ int main()
             return a.second > b.second;
         });
 
-    // Выводим результат
-    std::cout << "Word frequency:\n";
-    for (const auto& pair : sorted_word_count) {
-        std::cout << pair.first << ": " << pair.second << std::endl;
-    }
 
     // Записываем результат в файл
     std::ofstream out_file("output.txt");
