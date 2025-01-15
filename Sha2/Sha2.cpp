@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -97,6 +97,19 @@ int main()
         t.join();
     }
 
+    // Записываем промежуточный результат в файл для проверки ликвидности сортировки. Возможно не верное шифрование  Sha 256
+    std::ofstream out_file_H("outputWithHex.txt");
+    if (out_file_H.is_open()) {
+        for (const auto& printBloks : blocks) {
+            
+            out_file_H << printBloks.current_word << ": " << printBloks.word_pair << ": " << printBloks.hex_value << std::endl;
+        }
+        out_file_H.close();
+    }
+    else {
+        std::cerr << "Unable to open output file!" << std::endl;
+    }
+
     // Фильтруем блоки, оставляя только те, которые прошли проверку
     std::vector<WordBlock> valid_blocks;
     for (const auto& block : blocks) {
@@ -106,7 +119,7 @@ int main()
     }
 
     // Подсчитываем частоту слов
-    std::unordered_map<std::string, int> word_count;
+    unordered_map<std::string, int> word_count;
     for (const auto& block : valid_blocks) {
         word_count[block.current_word]++;
     }
@@ -128,6 +141,7 @@ int main()
     std::ofstream out_file("output.txt");
     if (out_file.is_open()) {
         for (const auto& pair : sorted_word_count) {
+            if (pair.second == 1) continue;
             out_file << pair.first << ": " << pair.second << std::endl;
         }
         out_file.close();
